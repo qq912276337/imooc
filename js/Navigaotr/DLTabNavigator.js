@@ -2,12 +2,16 @@
  * Created by sml2 on 2017/11/29.
  */
 import React from 'react';
-import { View, Text,Image, StyleSheet,Button } from 'react-native';
-import {TabNavigator} from 'react-navigation'
+import { View, Text,Image, StyleSheet,Button,TouchableOpacity } from 'react-native';
+import {TabNavigator} from 'react-navigation';
+import DLNavigationBar from './DLNavigationBar'
 
-class MyHomeScreen extends React.Component {
+import PopularScreen from '../Modules/Popular/Popular';
+
+
+class Trending extends React.Component {
     static navigationOptions = {
-        tabBarLabel: 'Home',
+        tabBarLabel: 'Trending',
         // Note: By default the icon is only shown on iOS. Search the showIcon option below.
         tabBarIcon: ({ tintColor }) => (
             <Image
@@ -20,45 +24,17 @@ class MyHomeScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.containerStyle}>
-                <Button style={{backgroundColor:'red'}}
-                        onPress={() => this.props.navigation.navigate('DLNotifications')}
-                        title="Go to notifications"
-                />
-            </View>
-        );
-    }
-}
+            <View style={[styles.containerStyle,{backgroundColor:'red'}]}>
 
-class MyHomeScreen extends React.Component {
-    static navigationOptions = {
-        tabBarLabel: 'Home',
-        // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-        tabBarIcon: ({ tintColor }) => (
-            <Image
-                // source={require('./chats-icon.png')}
-                source={require('../../res/images/table.png')}
-                style={[styles.icon, {tintColor: tintColor}]}
-            />
-        ),
-    };
-
-    render() {
-        return (
-            <View style={styles.containerStyle}>
-                <Button style={{backgroundColor:'red'}}
-                        onPress={() => this.props.navigation.navigate('DLNotifications')}
-                        title="Go to notifications"
-                />
             </View>
         );
     }
 }
 
 
-class MyHomeScreen extends React.Component {
+class Favorite extends React.Component {
     static navigationOptions = {
-        tabBarLabel: 'Home',
+        tabBarLabel: 'Favorite',
         // Note: By default the icon is only shown on iOS. Search the showIcon option below.
         tabBarIcon: ({ tintColor }) => (
             <Image
@@ -72,10 +48,7 @@ class MyHomeScreen extends React.Component {
     render() {
         return (
             <View style={styles.containerStyle}>
-                <Button style={{backgroundColor:'red'}}
-                        onPress={() => this.props.navigation.navigate('DLNotifications')}
-                        title="Go to notifications"
-                />
+
             </View>
         );
     }
@@ -96,10 +69,7 @@ class MyNotificationsScreen extends React.Component {
     render() {
         return (
             <View style={styles.containerStyle}>
-                <Button
-                    onPress={() => this.props.navigation.goBack()}
-                    title="Go back home"
-                />
+
             </View>
         );
     }
@@ -113,25 +83,31 @@ const styles = StyleSheet.create({
     containerStyle:{
         flex:1,
         backgroundColor:'gray',
-        justifyContent:'center',
-        alignItems:'center',
 
     }
 });
 
 const tabNavigator = TabNavigator({
-    DLHome: {
-        screen: MyHomeScreen,
+    Popular: {
+        screen: PopularScreen,
+    },
+    Trending: {
+        screen: Trending,
+    },
+    Favorite: {
+        screen: Favorite,
     },
     DLNotifications: {
         screen: MyNotificationsScreen,
     },
+
 }, {
     tabBarPosition: 'bottom',
     animationEnabled: true,
     tabBarOptions: {
         activeTintColor: '#e91e63',
     },
+    animationEnabled:false,
 });
 
 export default tabNavigator;
