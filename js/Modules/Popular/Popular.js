@@ -86,7 +86,11 @@ class PopularList extends Component{
         return <FlatList
             data={this.state.result}
             renderItem={(item)=>{
-                        return <DLPopularCell item = {item.item}/>
+                        return <DLPopularCell item = {item.item} 
+                                              clickHandler={(item)=>{
+                                                console.log(item);
+                                              }}
+                                />
                     }}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={this._renderSeparator}

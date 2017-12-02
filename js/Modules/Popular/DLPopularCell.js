@@ -7,7 +7,11 @@ import { View, Text,StyleSheet,Image, TouchableOpacity } from "react-native";
 class DLPopularCell extends Component {
     render(){
         return(
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{
+                    if(this.props.clickHandler){
+                        this.props.clickHandler(this.props.item);
+                    }
+            }}>
                 <View style={[styles.containerStyle,this.props.style]}>
                     <Text style={styles.titleStyle}>{this.props.item.full_name}</Text>
                     <Text style={styles.descStyle}>{this.props.item.description}</Text>
@@ -31,21 +35,21 @@ class DLPopularCell extends Component {
 const styles = StyleSheet.create({
     containerStyle:{
         // height:100,
+        padding:8,
     },
     titleStyle:{
-        padding:8,
         fontSize:16,
         color:'black',
+        paddingBottom:4,
     },
     descStyle:{
-        paddingLeft:8,
         fontSize:14,
         color:'gray',
     },
     bottomViewStyle:{
         flexDirection:'row',
         justifyContent:'space-between',
-        padding:8,
+        paddingTop:4,
     }
 });
 
