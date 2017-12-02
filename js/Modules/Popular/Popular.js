@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import { View, Text, FlatList,Image, StyleSheet,TouchableOpacity } from "react-native";
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view'
 import DLNavigationBar from '../../Navigaotr/DLNavigationBar';
+import DLPopularCell from './DLPopularCell'
 import DLHTTPUtil from '../../Common/DLHTTPUtil';
 
 
@@ -56,7 +57,6 @@ export default class PopularScreen extends React.Component {
                     <PopularList tabLabel="Android">Android</PopularList>
                     <PopularList tabLabel="Java">JAVA</PopularList>
                     <PopularList tabLabel="JavaScript">Javascript</PopularList>
-
                 </ScrollableTabView>
 
             </View>
@@ -73,19 +73,20 @@ class PopularList extends Component{
         this.state = {
             result:null,
             loading:true,
+            offset:0,
         };
-          this._headerRefresh();
       }
+
+    componentDidMount() {
+        this._headerRefresh();
+    }
 
     render(){
         console.log('PopularList render');
         return <FlatList
             data={this.state.result}
             renderItem={(item)=>{
-                        return <View style={styles.listItemStyle}>
-                                    <Text>{item.item.id}</Text>
-                                    <Text>{item.item.name}</Text>
-                                </View>
+                        return <DLPopularCell item = {item.item}/>
                     }}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={this._renderSeparator}
@@ -95,26 +96,29 @@ class PopularList extends Component{
     }
 
     _renderSeparator = ()=>{
-        return <View style={{height:1,backgroundColor:'white'}}>
+        return <View style={{height:1,backgroundColor:'#eeeeee'}}>
         </View>
     }
 
     _headerRefresh  = ()=>{
         this.setState({
             loading:true,
-        },
+            offset:0,
+            },
             this._loadNewData(),
         )
     }
     
     _loadNewData = ()=>{
         var url = URL + this.props.tabLabel + QUERY_STR;
+        console.log(url);
         DLHTTPUtil.GET(url)
             .then((result)=>{
                 console.log(result.items);
                 this.setState({
                     result:result.items,
                     loading:false,
+                    offset:result.items.length,
                 })
             })
             .catch((error)=>{
@@ -130,11 +134,6 @@ const styles = StyleSheet.create({
     },
     containerStyle:{
         flex:1,
-        backgroundColor:'gray',
+        backgroundColor:'white',
     },
-    listItemStyle:{
-        height:44,
-        backgroundColor:'purple',
-
-    }
 });
