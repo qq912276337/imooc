@@ -8,7 +8,6 @@ import DLNavigationBar from '../../Navigaotr/DLNavigationBar';
 import DLPopularCell from './DLPopularCell'
 import DLHTTPUtil from '../../Common/DLHTTPUtil';
 
-
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
 
@@ -50,7 +49,7 @@ export default class PopularScreen extends React.Component {
                 </DLNavigationBar>
 
                 <ScrollableTabView
-                    renderTabBar={()=><ScrollableTabBar />}
+                    // renderTabBar={()=><ScrollableTabBar />}
                     tabBarBackgroundColor='#ee6363'
                 >
                     <PopularList tabLabel="iOS">iOS</PopularList>
@@ -85,17 +84,18 @@ class PopularList extends Component{
         console.log('PopularList render');
         return <FlatList
             data={this.state.result}
-            renderItem={(item)=>{
-                        return <DLPopularCell item = {item.item} 
-                                              clickHandler={(item)=>{
-                                                console.log(item);
-                                              }}
-                                />
-                    }}
+            renderItem={(item)=>this._renderCell(item)}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={this._renderSeparator}
             onRefresh={this._headerRefresh}
             refreshing={this.state.loading}
+        />
+    }
+    _renderCell = (item)=>{
+        return <DLPopularCell item = {item.item}
+                              clickHandler={(item)=>{
+                                                console.log(item);
+                                              }}
         />
     }
 
