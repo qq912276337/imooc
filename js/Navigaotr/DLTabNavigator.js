@@ -7,6 +7,7 @@ import {TabNavigator} from 'react-navigation';
 import DLNavigationBar from './DLNavigationBar'
 
 import PopularScreen from '../Modules/Popular/Popular';
+import SpringAnimate from '../Other/SpringAnimate';
 
 
 class Trending extends React.Component {
@@ -24,8 +25,8 @@ class Trending extends React.Component {
 
     render() {
         return (
-            <View style={[styles.containerStyle,{backgroundColor:'red'}]}>
-
+            <View style={[styles.containerStyle,{backgroundColor:'white'}]}>
+                <SpringAnimate />
             </View>
         );
     }
@@ -91,9 +92,11 @@ const tabNavigator = TabNavigator({
     Popular: {
         screen: PopularScreen,
     },
+
     Trending: {
         screen: Trending,
     },
+
     Favorite: {
         screen: Favorite,
     },

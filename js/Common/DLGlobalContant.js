@@ -1,6 +1,8 @@
 /**
  * Created by sml2 on 2017/12/2.
  */
+import { Dimensions, Platform, PixelRatio } from 'react-native'
+
 global.gColors = {
     theme: 'rgb(217, 51, 58)',
     background: '#f5f5f5',
