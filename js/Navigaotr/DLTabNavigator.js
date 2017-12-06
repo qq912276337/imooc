@@ -8,7 +8,7 @@ import DLNavigationBar from './DLNavigationBar'
 
 import PopularScreen from '../Modules/Popular/Popular';
 import SpringAnimate from '../Other/SpringAnimate';
-
+import DLPullSlideView from '../Common/DLPullSlideView'
 
 class Trending extends React.Component {
     static navigationOptions = {
@@ -26,9 +26,38 @@ class Trending extends React.Component {
     render() {
         return (
             <View style={[styles.containerStyle,{backgroundColor:'white'}]}>
-                <SpringAnimate />
+
+                 <View style={{zIndex:2}}>
+                     <Text>123123</Text>
+                     <Text>123123</Text>
+                     <Text>123123</Text>
+                     <Text>123123</Text>
+                 </View>
+                <DLPullSlideView
+                    renderTargetView={this._renderTargetView}
+                    renderContentView={this._renderContentView}
+                    fromViewHeight={88}
+                    contentViewHeight={200}
+                />
+                <Text style={{height:44,backgroundColor:'purple'}}>123123</Text>
+                
+                
             </View>
         );
+    }
+
+    _renderTargetView = ()=>{
+        return (<Text style={{height:88,backgroundColor:'gray'}}>click</Text>)
+    }
+
+    _renderContentView = ()=>{
+        return (<View style={{backgroundColor:'red',height:200}}>
+            <Text>12345</Text>
+            <Text>12345</Text>
+            <Text>12345</Text>
+            <Text>12345</Text>
+            <Text>12345</Text>
+        </View>)
     }
 }
 

@@ -36,15 +36,7 @@ class DLPullSlideComponent extends Component{
                 <View style={{zIndex:1}}>
                     <Text onPress={this.show} style={{height:44,backgroundColor:'gray'}}>click</Text>
                 </View>
-                <Animated.View style={[styles.animatedContent, {top: 100},{height:translateH}]}>
-                    <View style={{backgroundColor:'red',height:translateH}}>
-                        <Text>12345</Text>
-                        <Text>12345</Text>
-                        <Text>12345</Text>
-                        <Text>12345</Text>
-                        <Text>12345</Text>
-                    </View>
-                </Animated.View>
+                
                 {this.state.show && <Animated.ScrollView style={[styles.animatedCover, {backgroundColor:animateBackgroundColor}]}>
                     <TouchableOpacity activeOpacity={1} style={{flex: 1}} onPress={this._close}>
                         <Animated.View style={[styles.animatedContent, {top: translateY}]}>

@@ -8,15 +8,7 @@ import { Dimensions } from 'react-native'
 
 var Width = Dimensions.get('window').width;
 var Height = Dimensions.get('window').height;
-
 class DLPullSlideView extends Component{
-    static propTypes={
-        fromView:PropTypes.element.isRequired,
-        contentView:PropTypes.element.isRequired,
-        fromViewHeight:PropTypes.number.isRequired,// 偏移量y
-        contentViewHeight:PropTypes.number.isRequired,// 滑动距离
-    }
-
     constructor(props) {
         super(props);
         this.state = {
@@ -31,7 +23,7 @@ class DLPullSlideView extends Component{
             inputRange:[0,1],
             outputRange: ['transparent', 'rgba(1,1,1,0.4)']
         });
-        var translateH = this.props.contentViewHeight;
+        var translateH = 444;
         const translateY = this.slideValue.interpolate({
             inputRange:[0,1],
             outputRange: [-translateH, 0]
@@ -40,14 +32,26 @@ class DLPullSlideView extends Component{
         return (
             <View style={{zIndex:1}}>
                 <View style={{zIndex:1}}>
-                    <TouchableOpacity onPress={this.show} activeOpacity={1}>
-                        {this.props.fromView}
-                    </TouchableOpacity>
+                    <Text onPress={this.show} style={{height:44,backgroundColor:'gray'}}>click</Text>
                 </View>
-                {this.state.show && <Animated.View style={[styles.animatedCover,{top:this.props.fromViewHeight}, {backgroundColor:animateBackgroundColor}]}>
-                    <TouchableOpacity activeOpacity={1} style={{flex: 1}} onPress={this.close}>
-                        <Animated.View style={[styles.animatedContent, {top: translateY}]}>
-                            {this.props.contentView}
+                {this.state.show && <Animated.View style={[styles.animatedCover, {backgroundColor:animateBackgroundColor},{
+                            transform: [
+                              { perspective: 1000 }
+                            ]
+                          }]}>
+                    <TouchableOpacity activeOpacity={1} style={{flex: 1}} onPress={this._close}>
+                        <Animated.View style={[styles.animatedContent, {top: translateY},{
+                            transform: [
+                              { perspective: 1000 }
+                            ]
+                          }]}>
+                            <View style={{backgroundColor:'red',height:translateH}}>
+                                <Text>12345</Text>
+                                <Text>12345</Text>
+                                <Text>12345</Text>
+                                <Text>12345</Text>
+                                <Text>12345</Text>
+                            </View>
                         </Animated.View>
                     </TouchableOpacity>
                 </Animated.View>
@@ -60,15 +64,15 @@ class DLPullSlideView extends Component{
         this.setState({show: true}, () => {
             Animated.timing(this.slideValue, {
                 toValue: 1,
-                duration: 200,
+                duration: 250,
             }).start()
         })
     }
 
-    close = () => {
+    _close = () => {
         Animated.timing(this.slideValue, {
             toValue: 0,
-            duration: 200,
+            duration: 250,
         }).start(() => this.setState({show: false}))
     }
 
