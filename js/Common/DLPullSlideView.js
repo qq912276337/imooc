@@ -2,13 +2,19 @@
  * Created by sml2 on 2017/12/5.
  */
 import React, { Component } from "react";
-import { View, Text, Animated, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Animated, TouchableOpacity, StyleSheet,Dimensions, Platform } from "react-native";
 import PropTypes from 'prop-types';
-import { Dimensions } from 'react-native'
-
 var Width = Dimensions.get('window').width;
 var Height = Dimensions.get('window').height;
 class DLPullSlideView extends Component{
+    static propTypes={
+        renderTargetView:PropTypes.func.isRequired,
+        renderContentView:PropTypes.func.isRequired,
+        fromViewHeight:PropTypes.number.isRequired,
+        contentViewHeight:PropTypes.number.isRequired,
+
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -23,35 +29,32 @@ class DLPullSlideView extends Component{
             inputRange:[0,1],
             outputRange: ['transparent', 'rgba(1,1,1,0.4)']
         });
-        var translateH = 444;
+        var translateH = this.props.contentViewHeight;
         const translateY = this.slideValue.interpolate({
             inputRange:[0,1],
             outputRange: [-translateH, 0]
         });
 
+        var animatedCoverAndroid = [styles.animatedCoverAndroid, {backgroundColor:animateBackgroundColor}];
+        var animatedContentAndroid = [styles.animatedContentAndroid,{height:this.props.contentViewHeight}, {top: 0}];
+
+        var animatedCoverIOS = [styles.animatedCoverIOS, {backgroundColor:animateBackgroundColor},{top:this.props.fromViewHeight}];
+        var animatedContentIOS = [styles.animatedContentIOS,{top: translateY}];
+
+        var animatedCover = Platform.OS == 'ios' ? animatedCoverIOS : animatedCoverAndroid;
+        var animatedContent = Platform.OS == 'ios' ? animatedContentIOS : animatedContentAndroid;
+
         return (
             <View style={{zIndex:1}}>
                 <View style={{zIndex:1}}>
-                    <Text onPress={this.show} style={{height:44,backgroundColor:'gray'}}>click</Text>
+                    <TouchableOpacity activeOpacity={1} onPress={this._show}>
+                        {this.props.renderTargetView()}
+                    </TouchableOpacity>
                 </View>
-                {this.state.show && <Animated.View style={[styles.animatedCover, {backgroundColor:animateBackgroundColor},{
-                            transform: [
-                              { perspective: 1000 }
-                            ]
-                          }]}>
+                {this.state.show && <Animated.View style={animatedCover}>
                     <TouchableOpacity activeOpacity={1} style={{flex: 1}} onPress={this._close}>
-                        <Animated.View style={[styles.animatedContent, {top: translateY},{
-                            transform: [
-                              { perspective: 1000 }
-                            ]
-                          }]}>
-                            <View style={{backgroundColor:'red',height:translateH}}>
-                                <Text>12345</Text>
-                                <Text>12345</Text>
-                                <Text>12345</Text>
-                                <Text>12345</Text>
-                                <Text>12345</Text>
-                            </View>
+                        <Animated.View style={animatedContent}>
+                            {this.props.renderContentView()}
                         </Animated.View>
                     </TouchableOpacity>
                 </Animated.View>
@@ -60,7 +63,7 @@ class DLPullSlideView extends Component{
         )
     }
 
-    show = () => {
+    _show = () => {
         this.setState({show: true}, () => {
             Animated.timing(this.slideValue, {
                 toValue: 1,
@@ -79,14 +82,24 @@ class DLPullSlideView extends Component{
 }
 
 const styles = StyleSheet.create({
-    animatedCover: {
-        position: 'absolute',
-        top: 44,
+    animatedCoverAndroid: {
+        top: 0,
         left: 0,
         right: 0,
         height: Height,
     },
-    animatedContent: {
+    animatedContentAndroid: {
+        left: 0,
+        right: 0,
+        height:222,
+    },
+    animatedCoverIOS: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        height: Height,
+    },
+    animatedContentIOS: {
         position: 'absolute',
         left: 0,
         right: 0,
@@ -95,3 +108,5 @@ const styles = StyleSheet.create({
 
 
 export default DLPullSlideView;
+
+

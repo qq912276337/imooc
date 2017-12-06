@@ -37,7 +37,7 @@ class Trending extends React.Component {
                     renderTargetView={this._renderTargetView}
                     renderContentView={this._renderContentView}
                     fromViewHeight={88}
-                    contentViewHeight={200}
+                    contentViewHeight={222}
                 />
                 <Text style={{height:44,backgroundColor:'purple'}}>123123</Text>
                 
@@ -51,7 +51,7 @@ class Trending extends React.Component {
     }
 
     _renderContentView = ()=>{
-        return (<View style={{backgroundColor:'red',height:200}}>
+        return (<View style={{backgroundColor:'red',height:222}}>
             <Text>12345</Text>
             <Text>12345</Text>
             <Text>12345</Text>
